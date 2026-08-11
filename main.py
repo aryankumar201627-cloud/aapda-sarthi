@@ -15,6 +15,7 @@ import jwt
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import flag_modified
+from fastapi.staticfiles import StaticFiles
 
 from database import get_db, init_db
 from models import (
@@ -902,3 +903,4 @@ def update_volunteer_availability(
 @app.get("/api/response-teams", response_model=List[ResponseTeamResponse])
 def get_response_teams(db: Session = Depends(get_db)):
     return db.query(ResponseTeam).all()
+app.mount("/", StaticFiles(directory=".", html=True), name="frontend")
